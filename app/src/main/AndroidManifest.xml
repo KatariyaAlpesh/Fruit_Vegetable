@@ -18,7 +18,7 @@
             android:name=".MainActivity3"
             android:exported="false" />
         <activity
-            android:name=".MainActivity2"
+            android:name=".Vegetable_Activity"
             android:exported="false" />
         <activity
             android:name=".Level_Page"
@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".Fruit_Activity"
             android:exported="true" />
     </application>
 

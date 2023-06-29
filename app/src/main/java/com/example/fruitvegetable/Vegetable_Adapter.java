@@ -1,8 +1,11 @@
 package com.example.fruitvegetable;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
+import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,20 +15,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Vegetable_Adapter extends RecyclerView.Adapter<Vegetable_Adapter.ViewHolder>
 {
+    Vegetable_Activity vegetable_activity;
+    ArrayList<String> vegetableArrayList;
+    TextToSpeech textToSpeech;
 
-    Vegetable_Model vegetable_model;
-    ArrayList<Vegetable_Model> Vegetable_List;
-    Activity activity;
-
-    Vegetable_Adapter(Vegetable_Model vegetable_model , ArrayList<Vegetable_Model> ArraylistVegetable , Activity activity)
+    public Vegetable_Adapter(Vegetable_Activity vegetable_activity, ArrayList<String> vegetableArrayList)
     {
-        this.Vegetable_List = ArraylistVegetable;
-        this.vegetable_model = vegetable_model;
-        this.activity = activity;
+        this.vegetable_activity = vegetable_activity;
+        this.vegetableArrayList = vegetableArrayList;
+
     }
 
     @NonNull
@@ -39,31 +44,63 @@ public class Vegetable_Adapter extends RecyclerView.Adapter<Vegetable_Adapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position)
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position)
     {
-        String txtName = Vegetable_List.get(position).VegetableName;
-        int image = Vegetable_List.get(position).Image;
 
-        holder.ivImage.setImageResource(Vegetable_List.get(position).Image);
-        holder.txtVName.setText(Vegetable_List.get(position).VegetableName);
+ //////////////==-->>>   Get Text and Speak to tuch on any Fruit name   <<<--===////////////////////////////
+
+        textToSpeech = new TextToSpeech(vegetable_activity.getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i)
+            {
+                if (i != TextToSpeech.ERROR)
+                {
+                    textToSpeech.setLanguage(Locale.UK);
+                }
+            }
+        });
+
+////////////==-->>>>   Set ClickListener For ItemClick    <<<<--====/////////////////////////////////
 
         holder.itemView.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                Intent intent = new Intent(activity , MainActivity4.class);
-                intent.putExtra("img" , image);
-                intent.putExtra("name" , txtName);
-                activity.startActivity(intent);
+                Intent intent=new Intent(vegetable_activity, MainActivity4.class);
+                intent.putExtra("img", position);
+                intent.putExtra("name", vegetableArrayList);
+                vegetable_activity.startActivity(intent);
+
+                //////////////==-->>>   Get Text and Speak to tuch on any Fruit name   <<<--===////////////////////////////
+
+                textToSpeech.speak(holder.txtVName.getText().toString() , TextToSpeech.QUEUE_FLUSH , null);
+
             }
         });
+
+        InputStream inputStream;
+
+        try
+        {
+            inputStream = vegetable_activity.getAssets().open("vegetables/" + vegetableArrayList.get(position));
+            Drawable drawable = Drawable.createFromStream(inputStream , null);
+
+            holder.ivImage.setImageDrawable(drawable);
+            holder.txtVName.setText(Config.vegetablePositionArray[position]);
+
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Override
     public int getItemCount()
     {
-        return Vegetable_List.size();
+        return vegetableArrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder

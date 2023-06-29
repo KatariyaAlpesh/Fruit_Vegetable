@@ -48,7 +48,7 @@ public class Level_Page extends AppCompatActivity implements View.OnClickListene
                 public void run()
                 {
                     Intent INext;
-                    INext = new Intent(Level_Page.this , MainActivity.class);
+                    INext = new Intent(Level_Page.this , Fruit_Activity.class);
                     startActivity(INext);
                 }
             }, 500);
@@ -57,7 +57,7 @@ public class Level_Page extends AppCompatActivity implements View.OnClickListene
         if (view.getId() == VEGETABLE.getId())
         {
             Intent INext;
-            INext = new Intent(Level_Page.this , MainActivity2.class);
+            INext = new Intent(Level_Page.this , Vegetable_Activity.class);
             startActivity(INext);
         }
     }

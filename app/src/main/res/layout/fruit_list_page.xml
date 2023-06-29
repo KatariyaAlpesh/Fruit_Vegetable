@@ -8,17 +8,21 @@
     >
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/FL"
+        android:id="@+id/cardView_Fruit"
         android:layout_width="match_parent"
-        android:layout_height="110dp"
-        android:layout_margin="15dp"
+        android:layout_height="85dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginLeft="7dp"
         app:cardCornerRadius="10dp"
+        android:backgroundTint="#CFD0D1"
         >
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:gravity="start"
             android:weightSum="3"
+            android:background="#DFF1FA"
             >
             <ImageView
                 android:id="@+id/Fruite_Logo"
@@ -34,16 +38,18 @@
                 android:id="@+id/Fruites"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="30dp"
-                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="2"
                 android:text="Apple"
                 android:textColor="@color/black"
-                android:textSize="30sp"
+                android:textSize="25sp"
                 android:textStyle="bold"
                 >
             </TextView>
+
         </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 
 
